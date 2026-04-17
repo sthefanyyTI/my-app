@@ -1,0 +1,36 @@
+:host {
+  ion-content, ion-toolbar {
+    --background: #f4f4f4;
+  }
+
+  .foto-guia {
+    width: 200px;
+    height: 360px;
+    margin: 0 auto;
+    border: 5px solid;
+  }
+
+  .texto1 {
+    font-size: 15px;
+    font-style: italic;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    ion-content, ion-toolbar {
+      --background: #000000;
+    }
+
+    .foto-guia {
+      border-color: #fff;
+    }
+
+    .texto1 {
+      color: #fff;
+    }
+  }
+}
