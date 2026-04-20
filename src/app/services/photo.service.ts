@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-
+import { Injectable, signal } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
@@ -16,7 +15,7 @@ export interface UserPhoto {
   providedIn: 'root',
 })
 export class PhotoService {
-  public photos: UserPhoto[] = [];
+  public photos = signal<UserPhoto[]>([]);
 
   private PHOTO_STORAGE: string = 'photos';
 
@@ -34,17 +33,13 @@ export class PhotoService {
       allowEditing: true,
     });
 
-    // this.photos.unshift({
-    //   filepath: capturedPhoto.path!,
-    //   webviewPath: capturedPhoto.webPath,
-    // });
       const savedImageFile = await this.savePicture(capturedPhoto);
 
-      this.photos.unshift(savedImageFile);
+      this.photos.update(photos => [savedImageFile, ...photos]);
 
       Preferences.set({ 
         key: this.PHOTO_STORAGE, 
-        value: JSON.stringify(this.photos) 
+        value: JSON.stringify(this.photos()) 
       });
   }
 
@@ -63,10 +58,6 @@ export class PhotoService {
 
       base64Data = (await this.convertBlobToBase64(blob)) as string;
     }
-    // return {
-    //   filepath: 'soon...',
-    //   webviewPath: 'soon...',
-    // };
     
     const fileName = Date.now() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
@@ -101,11 +92,11 @@ export class PhotoService {
 
   public async loadSaved() {
     const { value: photoList } = await Preferences.get({ key: this.PHOTO_STORAGE });
-    this.photos = (photoList ? JSON.parse(photoList) : []) as UserPhoto[];
+    this.photos.set((photoList ? JSON.parse(photoList) : []) as UserPhoto[]);
     
 
     if (!this.platform.is('hybrid')) {
-      for (let photo of this.photos) {
+      for (let photo of this.photos()) {
         const readFile = await Filesystem.readFile({
           path: photo.filepath,
           directory: Directory.Data,
@@ -116,11 +107,11 @@ export class PhotoService {
   }
 
   public async deletePhoto(photo: UserPhoto, position: number) {
-    this.photos.splice(position, 1);
+    this.photos.update(photos => photos.filter((_, index) => index !== position));
 
     Preferences.set({
       key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
+      value: JSON.stringify(this.photos()),
     });
 
     const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);

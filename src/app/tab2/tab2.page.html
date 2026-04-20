@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Fotos
-    </ion-title>
+    <ion-title> Fotos </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,21 +11,44 @@
     </ion-toolbar>
   </ion-header>
 
-  @if (photoService.photos.length === 0) {
-    <div class="ion-text-center">
-      <h3>Seus registros fotográficos</h3>
-      <p>Para tirar uma nova foto, basta acessar a câmera azul no centro da tela. </p>
-    </div>
+  @if (photoService.photos().length === 0) {
+  <div class="ion-text-center">
+    <h3>Seus registros fotográficos</h3>
+    <p>
+      Para tirar uma nova foto, basta acessar a câmera azul no centro da tela.
+    </p>
+  </div>
   }
 
   <ion-grid>
     <ion-row>
-      <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+      <ion-col
+        size="6"
+        *ngFor="let photo of photoService.photos(); index as position"
+      >
         <!-- CHANGE: Add a click event listener to each image -->
-        <ion-img [src]="photo.webviewPath" (click)="showActionSheet(photo, position)"></ion-img>
+        <ion-img
+          [src]="photo.webviewPath"
+          (click)="showActionSheet(photo, position)"
+        ></ion-img>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-action-sheet
+    [isOpen]="isActionSheetOpen()"
+    header="Qual ação deseja realizar?"
+    [buttons]="actionSheetButtons()"
+    (didDismiss)="setCloseActionSheet()"
+  >
+  </ion-action-sheet>
+
+  <ion-alert
+    [isOpen]="isAlertOpen()"
+    header="Tem certeza que deseja excluir esta foto?"
+    [buttons]="alertButtons()"
+    (didDismiss)="setCloseAlert()"
+  ></ion-alert>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <!-- CHANGE: Add a click event listener to the floating action button -->
