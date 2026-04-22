@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent} from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-tab1',
