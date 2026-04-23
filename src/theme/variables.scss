@@ -9,9 +9,13 @@
   --ion-color-primary-tint: #4c8dff;
 
   /* Adicione outras variáveis de cor conforme necessário */
-  --ion-background-color:  #ffffff;
+  //--ion-background-color:  #ffffff;
 
  
+}
+
+ion-content::part(background) {
+  --background: #f4f4f4;
 }
 
  ion-tab-button {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonThumbnail, IonCardTitle, IonCardSubtitle, IonList, IonItem, IonLabel } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonThumbnail, IonCardTitle, IonList, IonItem, IonLabel } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-tab1',
@@ -15,7 +15,6 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
     IonCardContent, 
     IonThumbnail,
     IonCardTitle,
-    IonCardSubtitle,
     IonList,
     IonItem,
     IonLabel,
