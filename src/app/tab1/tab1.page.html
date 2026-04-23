@@ -19,62 +19,43 @@
     </p>
   </div>
 
-  <ion-card>
+  <ion-card class="card">
     <ion-card-header>
-      <img src="assets/foto.jpg" alt="" />
+      <ion-card-title color="primary">Veja as ações do aplicativo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>
-        1. Para acessar a câmera, toque no ícone de fotos localizado na parte
-        inferior da tela.
-      </p>
+      <ion-list>
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="assets/gallery.png" />
+          </ion-thumbnail>
+          <ion-label class="label">1. Tenha sua própria galeria</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="assets/cloud.png" />
+          </ion-thumbnail>
+          <ion-label class="label">2. Armazene as fotos no aplicativo</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="assets/share.png" />
+          </ion-thumbnail>
+          <ion-label class="label">3. Compartilhe suas fotos</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="assets/security.png" />
+          </ion-thumbnail>
+          <ion-label class="label">3. Privacidade é garantida</ion-label>
+        </ion-item>
+
+      </ion-list>
     </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-      <ion-card-header>
-        <img src="assets/camera.jpg" alt="" />
-      </ion-card-header>
-      <ion-card-content>
-        <p>
-          2. Dentro da área de fotos, clique no botão “Câmera” para abrir a câmera do dispositivo.
-        </p>
-      </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-      <ion-card-header>
-        <img src="assets/tirarFoto.jpg" alt="" />
-      </ion-card-header>
-      <ion-card-content>
-        <p>
-          3. Tire a foto normalmente, aceitando ou repetindo conforme necessário.
-        </p>
-      </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-        <ion-card-header>
-          <img src="assets/salvaFoto.jpg" alt="" />
-        </ion-card-header>
-        <ion-card-content>
-          <p>
-            4. Após capturada, a imagem é salva automaticamente no aplicativo.
-          </p>
-        </ion-card-content>
-  </ion-card>
-
-    <!-- <ion-card>
-      <ion-card-header>
-        <img src="assets/deletaFoto.jpg" alt="" />
-      </ion-card-header>
-      <ion-card-content>
-        <p>
-          5. Para deletar uma foto, selecione a imagem e clique nela para
-          acessar as opções de exclusão.
-        </p>
-      </ion-card-content>
-    </ion-card> -->
+</ion-card>
 
   <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
 </ion-content>
