@@ -10,8 +10,6 @@
 
   /* Adicione outras variáveis de cor conforme necessário */
   //--ion-background-color:  #ffffff;
-
- 
 }
 
 ion-content::part(background) {
@@ -20,4 +18,26 @@ ion-content::part(background) {
 
  ion-tab-button {
     --background: var(--ion-color-primary-contrast);
+ }
+
+ @media (prefers-color-scheme: dark) {
+  :root {
+    --ion-color-primary: #3880ff;
+    --ion-color-primary-rgb: 56, 128, 255;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #3171e0;
+    --ion-color-primary-tint: #4c8dff;
+
+    /* Adicione outras variáveis de cor conforme necessário */
+    //--ion-background-color:  #000000;
   }
+
+  ion-content::part(background) {
+    --background: #000000;
+  }
+
+   ion-tab-button {
+      --background: var(--ion-color-primary-contrast);
+   }
+}
