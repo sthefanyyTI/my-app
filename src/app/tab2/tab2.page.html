@@ -35,6 +35,24 @@
     </ion-row>
   </ion-grid>
 
+ <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Foto</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setCloseModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <img [src]="selectedPhoto()?.webviewPath" />
+      </ion-content>
+    </ng-template>
+ </ion-modal>
+
   <ion-action-sheet
     [isOpen]="isActionSheetOpen()"
     header="Qual ação deseja realizar?"

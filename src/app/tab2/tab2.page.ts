@@ -15,6 +15,8 @@ import {
   IonButton,
   IonActionSheet,
   ActionSheetButton,
+  IonModal,
+  IonButtons,
 } from '@ionic/angular/standalone';
 import { PhotoService, UserPhoto } from '../services/photo.service';
 import { addIcons } from 'ionicons';
@@ -40,12 +42,16 @@ import { NgFor } from '@angular/common';
     IonAlert,
     IonButton,
     IonActionSheet,
+    IonModal,
+    IonButtons,
     NgFor,
   ],
 })
 export class Tab2Page {
   public isActionSheetOpen = signal(false);
   public isAlertOpen = signal(false);
+  public isModalOpen = false;
+  public selectedPhoto = signal<UserPhoto | null>(null);
   public photo = signal<UserPhoto | null>(null);
   public position = signal<number>(0);
   public alertButtons = signal<ActionSheetButton[]>([
@@ -121,5 +127,10 @@ export class Tab2Page {
     this.photo.set(photo);
     this.position.set(position);
     this.isActionSheetOpen.set(true);
+    this.selectedPhoto.set(photo);
+    this.isModalOpen = true;
   }
+  setCloseModal() {
+  this.isModalOpen = false;
+}
 }
