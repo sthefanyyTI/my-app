@@ -27,15 +27,16 @@
         *ngFor="let photo of photoService.photos(); index as position"
       >
         <!-- CHANGE: Add a click event listener to each image -->
-        <ion-img
-          [src]="photo.webviewPath"
+        <div
+          class="picture"
+          [style.background-image]="'url(' + photo.webviewPath + ')'"
           (click)="showActionSheet(photo, position)"
-        ></ion-img>
+        ></div>
       </ion-col>
     </ion-row>
   </ion-grid>
 
- <ion-modal [isOpen]="isModalOpen">
+  <ion-modal [isOpen]="isModalOpen()" (didDismiss)="setCloseModal()">
     <ng-template>
       <ion-header>
         <ion-toolbar color="primary">
@@ -47,11 +48,29 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        <img [src]="selectedPhoto()?.webviewPath" />
+      <ion-content class="ion-padding photo-modal">
+        <img [src]="photo()?.webviewPath" />
       </ion-content>
+      <ion-footer>
+        <ion-toolbar>
+          <div class="modal-buttons">
+            <ion-button slot="icon-only" fill="clear" (click)="sharePhoto(photo()!)">
+              <ion-icon name="share"></ion-icon>
+            </ion-button>
+            <ion-button slot="icon-only" fill="clear" (click)="confirmeDeletePhoto()">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+            <ion-button slot="icon-only" fill="clear" (click)="editPhoto(photo()!)">
+              <ion-icon name="pencil"></ion-icon>
+            </ion-button>
+            <ion-button slot="icon-only" fill="clear" (click)="showPhotoInfo()">
+              <ion-icon name="information"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
     </ng-template>
- </ion-modal>
+  </ion-modal>
 
   <ion-action-sheet
     [isOpen]="isActionSheetOpen()"

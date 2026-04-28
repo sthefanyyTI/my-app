@@ -17,10 +17,11 @@ import {
   ActionSheetButton,
   IonModal,
   IonButtons,
+  IonFooter
 } from '@ionic/angular/standalone';
 import { PhotoService, UserPhoto } from '../services/photo.service';
 import { addIcons } from 'ionicons';
-import { camera, close, share, trash } from 'ionicons/icons';
+import { camera, close, information, pencil, share, trash } from 'ionicons/icons';
 import { NgFor } from '@angular/common';
 
 @Component({
@@ -45,13 +46,13 @@ import { NgFor } from '@angular/common';
     IonModal,
     IonButtons,
     NgFor,
+    IonFooter,
   ],
 })
 export class Tab2Page {
   public isActionSheetOpen = signal(false);
   public isAlertOpen = signal(false);
-  public isModalOpen = false;
-  public selectedPhoto = signal<UserPhoto | null>(null);
+  public isModalOpen = signal(false);
   public photo = signal<UserPhoto | null>(null);
   public position = signal<number>(0);
   public alertButtons = signal<ActionSheetButton[]>([
@@ -66,6 +67,8 @@ export class Tab2Page {
         if (this.photo() && this.position() !== undefined) {
           await this.photoService.deletePhoto(this.photo()!, this.position());
           await this.photoService.loadSaved();
+          this.setCloseAlert();
+          this.setCloseModal();
         }
       },
     },
@@ -76,7 +79,7 @@ export class Tab2Page {
       text: 'Compartilhar',
       icon: 'share',
       handler: () => {
-        this.photoService.sharePhoto(this.photo()!);
+        this.sharePhoto(this.photo()!);
       },
     },
     {
@@ -96,14 +99,43 @@ export class Tab2Page {
       },
     },
   ]);
-  constructor(
-    public photoService: PhotoService,
-  ) {
-    addIcons({ camera, share, close, trash });
+
+  constructor(public photoService: PhotoService) {
+    addIcons({ camera, share, close, trash, information, pencil });
   }
 
   async ngOnInit() {
     await this.photoService.loadSaved();
+  }
+
+  async editPhoto(photo: UserPhoto) {
+    const editedPhoto = await this.photoService.editPhoto(photo);
+    this.photo.update(() => editedPhoto);
+    if (editedPhoto) {
+      await this.photoService.loadSaved();  
+    } else {
+      console.error('Failed to edit photo');  
+    }
+  }
+
+  showPhotoInfo() {
+    const photo: UserPhoto = this.photo()!;
+    
+    const info = `
+      Caminho: ${photo.fileName}
+      Criada em: ${new Date(photo.createdAt).toLocaleString()}
+      Atualizada em: ${new Date(photo.updatedAt).toLocaleString()}
+      Tamanho: ${photo.size} bytes
+      Formato: ${photo.format}
+      Plataforma: ${photo.platform}
+      Dispositivo: ${photo.device}
+      Localização: ${photo.location ? `Lat: ${photo.location.latitude}, Lon: ${photo.location.longitude}` : 'N/A'}
+    `;
+    alert(info);
+  }
+
+  sharePhoto(photo: UserPhoto) {
+    this.photoService.sharePhoto(photo);
   }
 
   addPhotoToGallery() {
@@ -118,7 +150,6 @@ export class Tab2Page {
     this.isAlertOpen.set(false);
   }
 
-
   setCloseActionSheet() {
     this.isActionSheetOpen.set(false);
   }
@@ -126,11 +157,9 @@ export class Tab2Page {
   public async showActionSheet(photo: UserPhoto, position: number) {
     this.photo.set(photo);
     this.position.set(position);
-    this.isActionSheetOpen.set(true);
-    this.selectedPhoto.set(photo);
-    this.isModalOpen = true;
+    this.isModalOpen.set(true);
   }
   setCloseModal() {
-  this.isModalOpen = false;
-}
+    this.isModalOpen.set(false);
+  }
 }
