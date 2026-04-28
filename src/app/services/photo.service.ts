@@ -83,7 +83,7 @@ export class PhotoService {
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
-      directory: Directory.Library,
+      directory: Directory.External,
     });
 
     if (this.platform.is('hybrid')) {
@@ -136,7 +136,7 @@ export class PhotoService {
       for (let photo of this.photos()) {
         const readFile = await Filesystem.readFile({
           path: photo.filepath,
-          directory: Directory.Library,
+          directory: Directory.External,
         });
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
@@ -180,13 +180,13 @@ export class PhotoService {
 
       await Filesystem.deleteFile({
         path: fileName,
-        directory: Directory.Library,
+        directory: Directory.External,
       });
     } else {
       try {
         await Filesystem.deleteFile({
           path: photo.filepath!,
-          directory: Directory.Library,
+          directory: Directory.External,
         });
       } catch (error) {
         console.error('Error deleting file:', error);
@@ -195,12 +195,15 @@ export class PhotoService {
   }
 
   public async sharePhoto(photo: UserPhoto) {
-    await Share.share({
+    const shareOptions = {
       title: 'Compartilhar imagem',
       text: 'Veja esta foto que tirei!',
-      url: photo.realPath,
-      // files: [photo.realPath],
       dialogTitle: 'Compartilhar imagem',
-    });
+      ...(this.platform.is('hybrid')
+        ? { files: [photo.filepath] }
+        : { url: photo.webviewPath ?? photo.realPath }),
+    };
+
+    await Share.share(shareOptions);
   }
 }
